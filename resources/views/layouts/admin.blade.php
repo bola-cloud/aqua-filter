@@ -241,7 +241,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
                             <a class="menu-item" href="{{ route('reports.soldProductsReport') }}">تقارير المنتجات المباعة</a>
                         </li>
                     @endif
-                    @if($user->hasPermission('عرض تقرير الأقساط'))
+                    @if($user->hasPermission('عرض تقرير الأقساط اليومية'))
                         <li class="{{ Route::currentRouteName() == 'sales.installments.dailySummary' ? 'active':'' }}">
                             <a class="menu-item" href="{{ route('sales.installments.dailySummary') }}">تقرير الأقساط اليومية</a>
                         </li>
