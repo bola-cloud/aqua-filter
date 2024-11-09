@@ -50,7 +50,7 @@
                                 <!-- نموذج تعيين دور -->
                                 <form action="{{ route('users.assignRole', $user->id) }}" method="POST">
                                     @csrf
-                                    <select name="role_name" class="form-select">
+                                    <select class="form-control select2" name="role_name" class="form-select">
                                         @foreach($roles as $role)
                                             <option value="{{ $role->name }}">{{ $role->name }}</option>
                                         @endforeach
@@ -61,7 +61,7 @@
                                 <!-- نموذج إضافة صلاحية -->
                                 <form action="{{ route('users.addPermission', $user->id) }}" method="POST">
                                     @csrf
-                                    <select name="permission_name">
+                                    <select class="form-control select2" name="permission_name">
                                         @foreach($permissions as $permission)
                                             <option value="{{ $permission->name }}">{{ $permission->name }}</option>
                                         @endforeach
@@ -77,3 +77,18 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+    <!-- Select2 css -->
+    <link href="{{asset('css/select2.min.css')}}" rel="stylesheet" />
+    <!-- Select2 JS -->
+    <script src="{{asset('js/select2.min.js')}}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "اختر ",
+                allowClear: true
+            });
+        });
+    </script>
+@endpush

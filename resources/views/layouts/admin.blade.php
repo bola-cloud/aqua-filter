@@ -255,6 +255,9 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
             <li class="nav-item">
                 <a href="#"><i class="la la-lock"></i><span class="menu-title">المستخدمين والصلاحيات</span></a>
                 <ul class="menu-content">
+                    <li class="{{ Route::currentRouteName() == 'users.index' ? 'active':'' }}">
+                        <a class="menu-item" href="{{ route('users.index') }}">  ارفاق الصلاحيات </a>
+                    </li>
                     <li class="{{ Route::currentRouteName() == 'roles.create' ? 'active':'' }}">
                         <a class="menu-item" href="{{ route('roles.create') }}">اضافة أدوار</a>
                     </li>
