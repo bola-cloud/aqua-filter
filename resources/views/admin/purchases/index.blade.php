@@ -35,11 +35,13 @@
                             <a href="{{ route('purchases.installments.create', ['purchase' => $purchase->id] ) }}" class="btn btn-info"> اضافة قسط </a>
                         @endif     
                         @if($purchase->type == 'expense')
-                            <form action="{{ route('purchases.destroy', $purchase->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('هل أنت متأكد من أنك تريد حذف هذه الفاتورة؟');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">حذف</button>
-                            </form>
+                            @if(auth()->user()->hasPermission('حذف فاتورة الشراء'))
+                                <form action="{{ route('purchases.destroy', $purchase->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('هل أنت متأكد من أنك تريد حذف هذه الفاتورة؟');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">حذف</button>
+                                </form>
+                            @endif
                         @endif
                     </td>
                 </tr>

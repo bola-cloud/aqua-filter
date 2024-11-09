@@ -17,7 +17,7 @@
             <div class="col-md-2">
                 <input type="date" class="form-control" id="date_to" name="date_to" placeholder="إلى تاريخ" value="{{ request('date_to') }}">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <!-- Village Select Dropdown -->
                 <select id="village" name="village" class="form-control select2">
                     <option value="">اختر القرية</option>
@@ -28,6 +28,15 @@
                     @endforeach
                 </select>
             </div>
+            <!-- Company Select Dropdown -->
+            <div class="col-md-3">
+                <select id="company" name="company" class="form-control">
+                    <option value="">اختر الشركة</option>
+                    <option value="اكوا فلتر" {{ request('company') == 'اكوا فلتر' ? 'selected' : '' }}>اكوا فلتر</option>
+                    <option value="اكوا ستار" {{ request('company') == 'اكوا ستار' ? 'selected' : '' }}>اكوا ستار</option>
+                </select>
+            </div>
+
             <div class="col-md-2 mt-2">
                 <!-- Filter for installment exceeding one month -->
                 <input type="checkbox" id="installment_exceeded" name="installment_exceeded" {{ request('installment_exceeded') ? 'checked' : '' }}>
@@ -60,6 +69,7 @@
                 <th>اسم البائع</th>
                 <th>تاريخ الإنشاء</th>
                 <th>الأقساط</th>
+                <th>الشركة</th>
                 <th>إجراءات</th>
                 <th>حذف</th>
             </tr>
@@ -79,9 +89,12 @@
                     <td>{{ $invoice->created_at->format('Y-m-d') }}</td>
                     <td>
                         @if($invoice->total_amount > $invoice->paid_amount)
-                            <a href="{{ route('sales.installments.index', $invoice->id) }}" class="btn btn-info btn-sm">عرض الأقساط</a>
+                            @if(auth()->user()->hasPermission('عرض الاقساط'))
+                                <a href="{{ route('sales.installments.index', $invoice->id) }}" class="btn btn-info btn-sm">عرض الأقساط</a>
+                            @endif
                         @endif
                     </td>
+                    <td> {{$invoice->company}} </td>
                     <td>
                         <a href="{{ route('invoices.show', ['invoice' => $invoice->id]) }}" class="btn btn-secondary btn-sm">عرض التفاصيل</a>
                         <a class="btn btn-primary btn-sm" href="{{ route('cashier.printInvoice', $invoice->id) }}">طباعة الفاتورة</a>

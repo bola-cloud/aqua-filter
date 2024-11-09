@@ -123,6 +123,7 @@ class CashierController extends Controller
             'paid_amount' => 'required|numeric|min:0',
             'client_id'=>'nullable',
             'installment_amount' => 'required|numeric|min:0',
+            'company'=>'required|in:اكوا ستار,اكوا فلتر',
         ], [
             'paid_amount.required' => 'يرجى إدخال المبلغ المدفوع.',
             'paid_amount.numeric' => 'المبلغ المدفوع يجب أن يكون رقماً.',
@@ -163,6 +164,7 @@ class CashierController extends Controller
                 'user_id' => auth()->id(),
                 'client_id' => $request->input('client_id'),
                 'installment_amount' => $request->input('installment_amount'),
+                'company' => $request->input('company'),
             ]);
 
     

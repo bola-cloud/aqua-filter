@@ -46,6 +46,7 @@
         </tbody>
     </table>
 
+    @if(auth()->user()->hasPermission('تحديث حالة العميل'))
         <!-- Form to Update Flags -->
         <h3 class="mt-5">تحديث حالة العميل</h3>
         <form action="{{ route('clients.updateFlags', $client->id) }}" method="POST" class="mb-4">
@@ -72,6 +73,7 @@
     
             <button type="submit" class="btn btn-primary">تحديث الحالة</button>
         </form>
+    @endif
 
     <a href="{{ route('clients.index') }}" class="btn btn-secondary">عودة إلى قائمة العملاء</a>
 </div>

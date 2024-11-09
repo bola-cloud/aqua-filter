@@ -154,6 +154,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="client_id">اختر الشركة</label>
+                    <select class="form-control select2-client" id="company" name="company" >
+                        <option value="" selected>اختر العميل </option>
+                        <option value="اكوا ستار"> اكوا ستار </option>
+                        <option value="اكوا فلتر"> اكوا فلتر </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="installment_amount">الدفعة الشهرية</label>
                     <input type="number" name="installment_amount" id="installment_amount" class="form-control" value="{{ old('installment_amount') }}" step="0.01" min="0">
                 </div>

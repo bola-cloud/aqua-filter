@@ -35,11 +35,13 @@
                         <td>
                             <a class="btn btn-info" href="{{ route('suppliers.destroy', $supplier->id) }}">عرض</a>
                             <button class="btn btn-warning" onclick="editSupplier({{ $supplier->id }})" data-toggle="modal" data-target="#editSupplierModal">تعديل</button>
-                            <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
-                            </form>
+                            @if(auth()->user()->hasPermission('حذف مورد'))
+                                <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

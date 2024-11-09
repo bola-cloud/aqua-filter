@@ -106,24 +106,22 @@
                             $user = auth()->user();
                             $permissions = $user->roles()->with('permissions')->get()->pluck('permissions.*.name')->flatten()->unique();
                         @endphp
-                        @if(Auth::user()->hasRole('admin') || $permissions->contains('عرض المنتجات'))
                         <td>
                             <div class="d-flex justify-content-between">
-                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">تعديل</a>
-                                
-                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد؟')">حذف</button>
-                                </form>
-
+                                @if(auth()->user()->hasPermission('تعديل المنتجات'))
+                                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">تعديل</a>
+                                @endif
+                                @if(auth()->user()->hasPermission('حذف المنتجات'))
+                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد؟')">حذف</button>
+                                    </form>
+                                @endif
                                 <!-- Add a button to redirect to the print barcode blade -->
                                 <a href="{{ route('products.printBarcodes', $product->id) }}" class="btn btn-secondary btn-sm">طباعة الباركود</a>
                             </div>
-                        </td>
-                        @else
-                        -----
-                        @endif                
+                        </td>            
                     </tr>
                 @endforeach
             </tbody>

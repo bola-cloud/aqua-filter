@@ -157,7 +157,7 @@
     <div class="container">
         <div id="invoice-POS" class="receipt">
             <div id="top" class="header">
-                <h1>شركة اكوا فلتر</h1>
+                <h1>شركة {{$invoice->company}}</h1>
                 <h2>فاتورة بيع</h2>
                 <div class="date">التاريخ: {{ \Carbon\Carbon::parse($invoice->created_at)->format('Y-m-d') }}</div>
                 <div class="invoice-code">رقم الفاتورة: INV-{{$invoice->invoice_code}}</div>

@@ -38,7 +38,8 @@ class InvoiceController extends Controller
         $date_to = $request->input('date_to') ? Carbon::parse($request->input('date_to'))->endOfDay() : null;
         $village = $request->input('village');
         $installment_exceeded = $request->input('installment_exceeded');
-    
+        $company = $request->input('company'); // New company filter
+
         $invoices = Invoice::with('client.village');
     
         // Search by query for client fields (name, phone)
@@ -54,6 +55,11 @@ class InvoiceController extends Controller
             $invoices->whereHas('client.village', function($q) use ($village) {
                 $q->where('name', 'like', "%{$village}%");
             });
+        }
+
+        // Filter by company
+        if ($company) {
+            $invoices->where('company', $company);
         }
     
         // Filter for last installment exceeding one month

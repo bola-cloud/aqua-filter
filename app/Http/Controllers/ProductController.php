@@ -328,7 +328,7 @@ class ProductController extends Controller
         $hasSales = $product->sales()->exists();
         $hasPurchases = $product->purchases()->exists();
 
-        if ($hasSales || $hasPurchases) {
+        if ($hasSales) {
             // If the product is related to sales or invoices, return a specific message
             return redirect()->route('products.index')->with('error', 'لا يمكن حذف المنتج لأنه مرتبط بمبيعات أو فواتير.');
         } else {

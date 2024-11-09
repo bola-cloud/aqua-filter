@@ -131,11 +131,13 @@
                             <td class="d-flex justify-content-between">
                                 <a class="btn btn-info" href="{{ route('clients.show', $client->id) }}">عرض</a>
                                 <button class="btn btn-warning mr-2 ml-2" onclick="editClient({{ $client->id }})" data-toggle="modal" data-target="#editClientModal">تعديل</button>
-                                <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
-                                </form>
+                                @if(auth()->user()->hasPermission('حذف عميل'))
+                                    <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -33,9 +33,9 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')
-            ->withPivot('user_type'); // Optional: 'user_type' if you are using polymorphic relationships
+        return $this->belongsToMany(\App\Models\Role::class, 'role_user', 'user_id', 'role_id');
     }
+    
 
     /**
      * Get the permissions that belong to the user.

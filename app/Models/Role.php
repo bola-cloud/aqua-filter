@@ -10,6 +10,6 @@ class Role extends RoleModel
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(\App\Models\User::class, 'role_user', 'role_id', 'user_id');
     }
 }

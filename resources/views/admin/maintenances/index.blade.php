@@ -71,11 +71,13 @@
                         <td>
                             <a href="{{ route('maintenances.edit', $maintenance->id) }}" class="btn btn-warning btn-sm">تعديل</a>
                             <a href="{{ route('maintenances.print', $maintenance->id) }}" target="_blank" class="btn btn-info btn-sm">طباعة الفاتورة</a>
-                            <form action="{{ route('maintenances.destroy', $maintenance->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
-                            </form>
+                            @if(auth()->user()->hasPermission('حذف فاتورة صيانة'))
+                                <form action="{{ route('maintenances.destroy', $maintenance->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

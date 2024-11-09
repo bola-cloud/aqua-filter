@@ -15,7 +15,7 @@
             <h5>كود الفاتورة: {{ $invoice->invoice_code }}</h5>
             <p>اسم المشتري: {{ $invoice->buyer_name }}</p>
             <p>هاتف المشتري: {{ $invoice->buyer_phone }}</p>
-            <p>اسم البائع: {{ $invoice->user->name }}</p>
+            <p>اسم البائع: {{ $invoice->user ? $invoice->user->name :'لا يوجد بائع' }}</p>
             <p>الإجمالي الفرعي: {{ number_format($invoice->subtotal, 2) }} ج.م</p>
             <p>الخصم: {{ number_format($invoice->discount, 2) }} ج.م</p>
             <p>الإجمالي: {{ number_format($invoice->total_amount, 2) }} ج.م</p>
@@ -24,7 +24,6 @@
             <p>تاريخ الإنشاء: {{ $invoice->created_at->format('Y-m-d H:i') }}</p>
         </div>
     </div>
-
     <!-- Update Paid Amount and Change Form -->
     <div class="container mt-4">
         <h2>تحديث المبلغ المدفوع والاقساط </h2>
@@ -86,18 +85,19 @@
         @endif
     </div>
 
-    <!-- Display the discount and provide an option to edit it -->
-    <form action="{{ route('invoices.updateDiscount', $invoice->id) }}" method="POST" class="p-2 mt-2">
-        @csrf
-        @method('PUT') <!-- PUT method for updating -->
-        <div class="form-group">
-            <label for="discount">تعديل الخصم:</label>
-            <input type="number" class="form-control" id="discount" name="discount" value="{{ number_format($invoice->discount, 2) }}" step="0.01" required>
-        </div>
-        
-        <button type="submit" class="btn btn-warning">تحديث الخصم</button>
-    </form>
-
+    @if(auth()->user()->hasPermission('تحديث الخصم'))
+        <!-- Display the discount and provide an option to edit it -->
+        <form action="{{ route('invoices.updateDiscount', $invoice->id) }}" method="POST" class="p-2 mt-2">
+            @csrf
+            @method('PUT') <!-- PUT method for updating -->
+            <div class="form-group">
+                <label for="discount">تعديل الخصم:</label>
+                <input type="number" class="form-control" id="discount" name="discount" value="{{ number_format($invoice->discount, 2) }}" step="0.01" required>
+            </div>
+            
+            <button type="submit" class="btn btn-warning">تحديث الخصم</button>
+        </form>
+    @endif
 
 
     <!-- Sold Products Section -->
@@ -150,13 +150,13 @@
                 </tr>
             </tfoot>
         </table>
-        @if($user->hasRole('admin') || $permissions->contains('حذف الفواتير'))
+        @if(auth()->user()->hasRole('admin') || auth()->user()->hasPermission('إرجاع المنتجات المختارة'))
             <button type="submit" class="btn btn-danger">إرجاع المنتجات المختارة</button>
         @endif
     </form>
 
     <!-- Add Product to Invoice -->
-    @if($user->hasRole('admin') || $permissions->contains('حذف الفواتير'))
+    @if($user->hasRole('admin') || auth()->user()->hasPermission('إضافة المنتج الي الفاتورة'))
         <h3 class="mt-4">إضافة منتج جديد إلى الفاتورة</h3>
         <form action="{{ route('invoices.addProduct', $invoice->id) }}" method="POST">
             @csrf
@@ -172,7 +172,7 @@
                 <label for="quantity">الكمية</label>
                 <input type="number" name="quantity" id="quantity" class="form-control" min="1" required>
             </div>
-            <button type="submit" class="btn btn-primary">إضافة المنتج</button>
+            <button type="submit" class="btn btn-primary">إضافة المنتج الي الفاتورة</button>
         </form>
 
         <!-- Delete Invoice -->

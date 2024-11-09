@@ -253,7 +253,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
         <!-- Permissions for Admin Only -->
         @if($user->hasRole('admin'))
             <li class="nav-item">
-                <a href="#"><i class="la la-lock"></i><span class="menu-title">الأذونات</span></a>
+                <a href="#"><i class="la la-lock"></i><span class="menu-title">المستخدمين والصلاحيات</span></a>
                 <ul class="menu-content">
                     <li class="{{ Route::currentRouteName() == 'roles.create' ? 'active':'' }}">
                         <a class="menu-item" href="{{ route('roles.create') }}">اضافة أدوار</a>

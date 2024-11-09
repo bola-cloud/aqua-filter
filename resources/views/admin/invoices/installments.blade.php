@@ -35,10 +35,11 @@
                             <td>{{ $installment->date_paid }}</td>
                             <td>{{ $installment->agent }}</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal{{ $installment->id }}">
-                                    تعديل
-                                </button>
-
+                                @if(auth()->user()->hasPermission('تعديل قسط'))
+                                    <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal{{ $installment->id }}">
+                                        تعديل
+                                    </button>
+                                @endif
                                 <div class="modal fade" id="editModal{{ $installment->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $installment->id }}" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -78,26 +79,28 @@
             </table>
         </div>
 
-        <div class="col-md-6">
-            <h4>إضافة قسط جديد</h4>
-            <form action="{{ route('sales.installments.store', $invoice->id) }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label for="amount_paid">المبلغ المدفوع</label>
-                    <input type="number" name="amount_paid" class="form-control" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="date_paid">تاريخ الدفع</label>
-                    <input type="date" name="date_paid" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="agent">المسؤول عن التحصيل</label>
-                    <input type="text" name="agent" class="form-control" value="{{ $installment->agent ?? '' }}" required>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">إضافة القسط</button>
-            </form>
-        </div>
+        @if(auth()->user()->hasPermission('اضافة قسط'))
+            <div class="col-md-6">
+                <h4>إضافة قسط جديد</h4>
+                <form action="{{ route('sales.installments.store', $invoice->id) }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="amount_paid">المبلغ المدفوع</label>
+                        <input type="number" name="amount_paid" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_paid">تاريخ الدفع</label>
+                        <input type="date" name="date_paid" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="agent">المسؤول عن التحصيل</label>
+                        <input type="text" name="agent" class="form-control" value="{{ $installment->agent ?? '' }}" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">إضافة القسط</button>
+                </form>
+            </div>
+        @endif
     </div>
 
     <div class="row mt-4">
